@@ -1,0 +1,12 @@
+.main-panel {
+  background: rgba(203, 203, 210, 0.15);
+  position: relative;
+  float: right;
+  width: calc(100% - 200px);
+  min-height: 100%;
+}
+
+.main-panel .content {
+  height: calc(100vh - 80px);
+  min-height: calc(100vh - 80px);
+}

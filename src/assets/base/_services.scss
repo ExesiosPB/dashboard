@@ -1,0 +1,81 @@
+.services-wrapper {
+  width: calc(100vw - 140px);
+  height: calc(100vh - 50px);
+  background-color: white;
+  overflow-y: auto;
+}
+
+.row {
+  margin: 0 !important;
+  display: block;
+
+  .filter-bar {
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+
+    .filter-button-wrapper {
+      display: inline;
+      padding: 20px;
+    
+      .filter-button {
+        border: 1px solid $blue-color;
+        background-color: white;
+        color: $blue-color;
+        border-radius: 30px;
+        font-size: 1rem;
+        font-weight: 600;
+        padding: 5px 20px 5px 20px;
+      }
+    
+      .filter-button-active, .filter-button:hover {
+        background-color: $blue-color;
+        color: white;
+        border: 0;
+        border-radius: 30px;
+        font-size: 1rem;
+        font-weight: 600;
+        padding: 5px 20px 5px 20px;
+      }
+    }
+  }
+
+  .name {
+    font-size: 1.8em;
+    font-weight: 700;
+    color: $blue-color;
+    width: 100%;
+    margin-left: 10%;
+    margin-right: 10%;
+    padding-bottom: 5px;
+    border-bottom: 1px solid $medium-dark-gray-color;
+  }
+
+  .loading-show {
+    display: block;
+  }
+  .loading-hidden {
+    display: none;
+  }
+
+  .chart-show {
+    display: block;
+  }
+  .chart-hidden {
+    display: none;
+  }
+
+  .card {
+    margin-bottom: 20px;
+  }
+}
+
+.streetcheck-iframe {
+  display: block; 
+  width: 100%;
+  min-height: 400px;
+  padding: 0; 
+  margin: 10px 0px; 
+  border: 1px solid rgb(225, 225, 225); 
+  box-shadow: rgba(0, 0, 0, 0.15) 0 1px 3px;
+}

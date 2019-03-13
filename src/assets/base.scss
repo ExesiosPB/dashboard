@@ -1,0 +1,32 @@
+@import 'base/variables';
+@import 'base/sidebar';
+@import 'base/navbar';
+@import 'base/attractions';
+@import 'base/services';
+
+html, body {
+  font-size: 14px;
+  background: white;
+  overflow: hidden;
+}
+
+body, .wrapper {
+  min-height: 100vh;
+  position: relative;
+}
+
+.wrapper {
+  height: 100vh;
+}
+
+.main {
+  position: relative;
+  float: right;
+  width: calc(100% - 140px);
+  min-height: 100%;
+  background-color: $smoke-color;
+}
+
+button:focus {
+  outline: none !important;
+}

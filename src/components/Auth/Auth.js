@@ -2,10 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
-import { setCurrentUser } from '../../actions/authActions';
 import axios from 'axios';
 
-const ACCOUNTS_URL = process.env.REACT_APP_ACCOUNTS_URL;
+import { setCurrentUser } from '../../actions/authActions';
+import { ACCOUNTS_URL } from '../../utils/utils';
 
 const authUser = (token) => (dispatch) => {
   axios.get(`${ACCOUNTS_URL}/token/${token}`)

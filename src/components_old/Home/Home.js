@@ -1,13 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import Sidebar from '../Sidebar/Sidebar';
-import Navbar from '../Navbar/Navbar';
+import './Home.css';
 
-// Pages
-import Attractions from '../../pages/Attractions/Attractions';
-import Services from '../../pages/Services/Services';
-
+import Sidebar from './components/Sidebar/Sidebar';
+import Main from './components/Main/Main';
 import { clearCurrentUser } from '../../actions/authActions';
 import { ACCOUNTS_URL } from '../../utils/utils';
 
@@ -37,33 +34,10 @@ class Home extends React.Component {
   }
 
   render() {
-    const sidebarActiveMenu = this.props.global.sidebar.activeMenu;
-    let screenToRender;
-    switch (sidebarActiveMenu) {
-      case 'Attractions':
-        screenToRender = <Attractions />;
-        break;
-      case 'Transport':
-        // screenToRender = <Transport />;
-        break;
-      case 'Facilites':
-        // screenToRender = <Facilites />;
-        break;
-      case 'Services':
-        screenToRender = <Services />;
-        break;
-      default:
-        screenToRender = <Attractions />;
-    }
-
     return (
       <div className='wrapper'>
-        <Sidebar />
-
-        <div className="main">
-          <Navbar />
-          {screenToRender}
-        </div>
+        <Sidebar onLogoutPress={this.logout} />
+        <Main />
       </div>
     )
   }
@@ -73,7 +47,6 @@ class Home extends React.Component {
 
 const mapStateToProps = state => ({
   auth: state.auth,
-  global: state.global,
 });
 
 export default connect(mapStateToProps, { clearCurrentUser })(Home);

@@ -9,6 +9,7 @@ import { createLogger } from 'redux-logger';
 import jwtDecode from 'jwt-decode';
 
 // Styles
+import './assets/base.scss';
 import 'bootstrap/dist/css/bootstrap.css'
 
 // App imports
@@ -17,7 +18,12 @@ import { setCurrentUser, clearCurrentUser } from './actions/authActions';
 import Auth from './components/Auth/Auth';
 import Home from './components/Home/Home';
 
-const ACCOUNTS_URL = process.env.REACT_APP_ACCOUNTS_URL;
+let ACCOUNTS_URL;
+if (process.env.NODE_ENV === 'production') {
+  ACCOUNTS_URL = process.env.REACT_APP_ACCOUNTS_URL_PROD;
+} else {
+  ACCOUNTS_URL = process.env.REACT_APP_ACCOUNTS_URL_DEV;
+}
 
 const store = createStore(
   mainReducer,

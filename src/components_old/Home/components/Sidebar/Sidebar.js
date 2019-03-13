@@ -66,23 +66,6 @@ class Sidebar extends React.Component {
   }
 }
 
-/** 
-<li className="nav-item active">
-<a href="/" className="nav-link">Attractions</a>
-</li>
-
-<li className="nav-item">
-<a href="/" className="nav-link">Transport</a>
-</li>
-
-<li className="nav-item">
-<a href="/" className="nav-link">Facilites</a>
-</li>
-
-<li className="nav-item">
-<a href="/" className="nav-link">Services</a>
-</li> */
-
 const mapStateToProps = state => ({
   global: state.global,
 })
