@@ -1,16 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { 
+import {
   AreaChart,
   ResponsiveContainer,
-  CartesianGrid, 
+  CartesianGrid,
   Area,
   XAxis,
-  YAxis 
+  YAxis
 } from 'recharts';
 import axios from 'axios';
 
-import { LIBM_URL } from '../../../../../utils/utils';
+import { LIBM_URL, LIBM_OTHER_URL } from '../../../../../utils/utils';
 
 class MapSidebar extends React.Component {
   constructor(props) {
@@ -37,9 +37,9 @@ class MapSidebar extends React.Component {
     const { name, on } = element;
     return (
       <div className="filter">
-        <input 
-          checked={on} 
-          type="checkbox" 
+        <input
+          checked={on}
+          type="checkbox"
           id={name}
           key={name}
           onChange={() => this.onFilterChange(index)}
@@ -55,14 +55,14 @@ class MapSidebar extends React.Component {
     const url = `${LIBM_URL}/sentiment/twitter/${place}`;
     axios.get(url).then((response) => {
       response.data.map((j, index) => d.push({ id: index, sentiment: j.sentiment }));
-        
+
     }).catch((err) => {
       console.log(err);
     });
 
 
     // console.log(venue);
-    /** 
+    /**
     const data = [
       {id: "0", sentiment: "-1.2"},
       {id: "1", sentiment: "0.2"},
@@ -94,9 +94,9 @@ class MapSidebar extends React.Component {
             <YAxis />
             <defs>
               <linearGradient id="splitColor" x1="0" y1="0" x2="0" y2="1">
-                <stop offset={off} stopColor="green" stopOpacity="1" />  
-                <stop offset={off} stopColor="red" stopOpacity="1" />  
-              </linearGradient>          
+                <stop offset={off} stopColor="green" stopOpacity="1" />
+                <stop offset={off} stopColor="red" stopOpacity="1" />
+              </linearGradient>
             </defs>
             <Area type="monotone" dataKey="sentiment" stroke="#000" fill="url(#splitColor)" />
           </AreaChart>
@@ -113,7 +113,7 @@ class MapSidebar extends React.Component {
         <p className="category">{venue.category.title}</p>
 
         {this.renderSentiment(venue)}
-      </div>  
+      </div>
     );
   }
 
@@ -143,9 +143,9 @@ class MapSidebar extends React.Component {
                 {this.state.filters.map(this.renderFilter)}
               </div>
               <div className="modal-footer">
-                <button 
-                  type="button" 
-                  onClick={() => this.props.filterChange(this.state.filters)} 
+                <button
+                  type="button"
+                  onClick={() => this.props.filterChange(this.state.filters)}
                   className="save-filters"
                   data-dismiss="modal"
                 >Filter</button>

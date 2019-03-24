@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 
-import { LIBM_URL } from '../../utils/utils';
+import { LIBM_URL, LIBM_OTHER_URL } from '../../utils/utils';
 
 const DisplayInformation = (props) => {
   const {
@@ -21,14 +21,14 @@ const DisplayInformation = (props) => {
     <section className="display-information">
       <p className="name">{name}</p>
       <p className="location">{displayLocation}</p>
-      
+
       <div className="rating">
         <p className="rating-figure">{rating}</p>
         <div className="icon">
           <i class="fas fa-star"></i>
         </div>
       </div>
-    
+
       <p className="phone">{phone}</p>
     </section>
   )
@@ -44,8 +44,8 @@ const ReviewsCard = (props) => {
       <div className="card-body">
         <h5 className="card-title">Reviews</h5>
 
-        { loading 
-          ? <p>Loading</p> 
+        { loading
+          ? <p>Loading</p>
           : data.map((review) => {
             return (
               <div className="review">
@@ -76,7 +76,7 @@ class AttractionsModal extends React.Component {
 
   componentDidMount() {
     const { venue } = this.props;
-    
+
     // We get reviews
     const reviewsURL = `${LIBM_URL}/social/yelp/reviews/${venue.id}`;
     this.getFromURL(reviewsURL)

@@ -7,11 +7,11 @@ import {
   setMapViewport,
   setMapMinimized
 } from '../../actions/globalActions';
-import { 
+import {
   setAttractionsVenues,
   setAttractionsVenuesSelected,
 } from '../../actions/attractionsActions';
-import { LIBM_URL } from '../../utils/utils';
+import { LIBM_URL, LIBM_OTHER_URL } from '../../utils/utils';
 import MapPin from '../../components/MapPin/MapPin';
 import AttractionsModal from '../../components/AttractionsModal/AttractionsModal';
 
@@ -33,7 +33,7 @@ class Attractions extends React.Component {
       // Check if category venue array is empty
       if (venues[category].venues.length === 0) {
         const url = `${LIBM_URL}/social/yelp/cat_search/Stoke-On-Trent/cat/${category}`;
-        
+
         this.getFromURL(url)
         .then((response) => {
           count += 1;
@@ -63,7 +63,7 @@ class Attractions extends React.Component {
     console.log(modalInfo);
     if (modalInfo) {
       return (
-        <AttractionsModal 
+        <AttractionsModal
           styles={{display: "block"}}
           onClose={() => this.setState({ modalInfo: null })}
           venue={modalInfo}
@@ -80,11 +80,11 @@ class Attractions extends React.Component {
     return (
       <div className="row">
         <div className="venue-information">
-        
+
         </div>
 
         <div className="col">
-        
+
         </div>
 
         <div className="col">
@@ -98,7 +98,7 @@ class Attractions extends React.Component {
     const { latitude, longitude } = venue.coordinates;
     const id = venue.id;
     return (
-      <Marker 
+      <Marker
         key={`marker-${id}-${index}`}
         longitude={longitude}
         latitude={latitude}
@@ -124,14 +124,14 @@ class Attractions extends React.Component {
         >
           <p>{popupInfo.name}</p>
 
-          <button 
-            className="more-info-button" 
+          <button
+            className="more-info-button"
             type="button"
             onClick={() => {
               this.props.updateMapMinimized(!map.minimized);
-              this.setState({ 
+              this.setState({
                 vizInfo: popupInfo,
-                popupInfo: null, 
+                popupInfo: null,
               });
             }}
           >
@@ -159,9 +159,9 @@ class Attractions extends React.Component {
             {keys.map(key => {
               const selected = venues[key].selected;
               return (
-                <a 
-                  className="dropdown-item" 
-                  href="#pressed" 
+                <a
+                  className="dropdown-item"
+                  href="#pressed"
                   onClick={() => {this.props.updateAttractionsVenuesSelected(key, !selected)}}
                 >
                   {key}
@@ -175,8 +175,8 @@ class Attractions extends React.Component {
         </div>
 
         <div className="map-expand">
-            <button 
-              className="button" 
+            <button
+              className="button"
               type="button"
               onClick={() => {this.props.updateMapMinimized(!map.minimized)}}
             >
@@ -212,14 +212,14 @@ class Attractions extends React.Component {
           </div>
 
           <div className={"map-" + (map.minimized ? "minimized" : "large")}>
-            <ReactMapGL 
+            <ReactMapGL
               {...map.viewport}
               width={map.width}
               height={map.height}
               onViewportChange={this.updateViewport}
               mapStyle='mapbox://styles/tobydrane/cjesnnyn40y7z2spc1r6s930d'
               mapboxApiAccessToken={map.token}>
-              
+
               {this.renderOverlay()}
               {venuesToRender.map(this.renderVenueMarker)}
               {this.renderPopup()}

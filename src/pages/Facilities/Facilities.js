@@ -6,7 +6,8 @@ import {
   VictoryBar
 } from 'victory';
 
-import { LIBM_URL } from '../../utils/utils';
+import { LIBM_URL, LIBM_OTHER_URL } from '../../utils/utils';
+// import { LIBM_OTHER_URL } from '../../utils/utils';
 
 const FilterButton = ({activeMenu, name, onClick}) => {
   const isActive = (activeMenu === name) ? true : false;
@@ -122,7 +123,7 @@ class Services extends React.Component {
     super(props);
 
     this.state = {
-      activeMenu: 'Transport',
+      activeMenu: 'Flikr',
       data: [],
       loading: true,
     }
@@ -143,7 +144,7 @@ class Services extends React.Component {
   }
 
   getData(activeMenu) {
-    const articlesURL = `${LIBM_URL}/services_news/nlp/${activeMenu}/Stoke-On-Trent`;
+    const articlesURL = `${LIBM_OTHER_URL}/social/flikr/stoke`;
     this.getFromURL(articlesURL)
     .then((response) => {
       let data = [];
@@ -151,22 +152,6 @@ class Services extends React.Component {
       response.forEach((r) => {
         data.push(r);
       });
-
-      // Now get from GOV UK
-      const govURL = `${LIBM_URL}/gov/search/${activeMenu}/Stoke-On-Trent`;
-      this.getFromURL(govURL)
-      .then((response) => {
-        response.results.forEach((r) => {
-          data.push(r);
-        })
-        this.setState({
-          data: data,
-          loading: false,
-        })
-      })
-      .catch((err) => {
-        console.log(err);
-      })
     })
     .catch((err) => {
       console.log(err);

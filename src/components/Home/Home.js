@@ -7,6 +7,7 @@ import Navbar from '../Navbar/Navbar';
 // Pages
 import Attractions from '../../pages/Attractions/Attractions';
 import Services from '../../pages/Services/Services';
+import Facilities from '../../pages/Facilities/Facilities';
 
 import { clearCurrentUser } from '../../actions/authActions';
 import { ACCOUNTS_URL } from '../../utils/utils';
@@ -14,7 +15,7 @@ import { ACCOUNTS_URL } from '../../utils/utils';
 class Home extends React.Component {
   constructor(props) {
     super(props);
-  
+
     this.logout = this.logout.bind(this);
   }
 
@@ -28,7 +29,7 @@ class Home extends React.Component {
   componentDidUpdate(prevProps) {
     if (this.props.auth.isAuthenticated !== prevProps.auth.isAuthenticated) {
       window.location.href = `${ACCOUNTS_URL}/logout`;
-    }   
+    }
   }
 
   logout(e) {
@@ -47,7 +48,7 @@ class Home extends React.Component {
         // screenToRender = <Transport />;
         break;
       case 'Facilites':
-        // screenToRender = <Facilites />;
+        screenToRender = <Facilities />;
         break;
       case 'Services':
         screenToRender = <Services />;
