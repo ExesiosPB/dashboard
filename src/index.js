@@ -19,11 +19,11 @@ import Auth from './components/Auth/Auth';
 import Home from './components/Home/Home';
 
 let ACCOUNTS_URL;
-if (process.env.NODE_ENV === 'production') {
+// if (process.env.NODE_ENV === 'production') {
   ACCOUNTS_URL = process.env.REACT_APP_ACCOUNTS_URL_PROD;
-} else {
-  ACCOUNTS_URL = process.env.REACT_APP_ACCOUNTS_URL_DEV;
-}
+// } else {
+//   ACCOUNTS_URL = process.env.REACT_APP_ACCOUNTS_URL_DEV;
+// }
 
 const store = createStore(
   mainReducer,
@@ -57,7 +57,7 @@ ReactDOM.render(
         <Route exact path='/' component={Home} />
         <Route path='/auth/:token' component={Auth} />
       </React.Fragment>
-    </BrowserRouter> 
+    </BrowserRouter>
   </Provider>,
   document.getElementById('root'),
 );
