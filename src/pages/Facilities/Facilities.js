@@ -1,5 +1,9 @@
 import React from 'react';
 import axios from 'axios';
+import { render } from 'react-dom';
+import Gallery from 'react-photo-gallery';
+import Lightbox from 'react-images';
+
 import {
   VictoryChart,
   VictoryAxis,
@@ -7,7 +11,8 @@ import {
 } from 'victory';
 
 import { LIBM_URL, LIBM_OTHER_URL } from '../../utils/utils';
-// import { LIBM_OTHER_URL } from '../../utils/utils';
+
+let data = []
 
 const FilterButton = ({activeMenu, name, onClick}) => {
   const isActive = (activeMenu === name) ? true : false;
@@ -15,148 +20,151 @@ const FilterButton = ({activeMenu, name, onClick}) => {
     <div className="filter-button-wrapper">
       <button
         className={"filter-button" + (isActive ? "-active": "")}
-        onClick={() => onClick(name)}
+        onClick={() => onClick(activeMenu)}
       >
-        {name}
+        {activeMenu}
       </button>
     </div>
   )
 }
 
-const SentimentCard = ({loading, data}) => {
-  let sentimentData = [];
+const ShowFlikr = ({loading, data}) => {
+  let flikrData = [];
+  console.log(data)
+  console.log(loading)
+
   data.forEach((val, index) => {
-    sentimentData.push({
-      x: index,
-      y: val.sentiment
+    flikrData.push({
+      src: val.imageurl
     })
   });
+  console.log(flikrData)
 
-  return (
-    <div className="card sentiment-card">
-      <div className="card-body">
-        <h5 className="card-title">Overall Sentiment</h5>
-
-        <p className={"loading-" + (loading ? "show" : "hidden")}>Loading</p>
-
-        <div className={"chart-" + (loading ? "hidden" : "show")}>
-          <VictoryChart>
-            <VictoryAxis
-              style={{
-                axis: { stroke: "none" },
-                ticks: { stroke: "none" },
-                tickLabels: { fill: "none" },
-                grid: { stroke: "lightGray" }
-              }}
-            />
-            <VictoryAxis dependentAxis
-              style={{
-                ticks: { stroke: "gray" },
-                tickLabels: { fill: "gray", fontSize: 12 }
-              }}
-              crossAxis={false}
-            />
-            <VictoryBar
-              style={{
-                data: { fill: "#c43a31" }
-              }}
-              padding={{ left: 0, right: 0 }}
-              data={sentimentData}
-            />
-          </VictoryChart>
-        </div>
+    return (
+      <div>
+      <Gallery photos={flikrData}/>
       </div>
-    </div>
-  )
+    )
+
 }
 
-const KeywordsCard = ({loading, data}) => {
-  console.log(data);
-  let sentimentData = [];
-  data.forEach((val, index) => {
-    sentimentData.push({
-      x: index,
-      y: val.sentiment
-    })
-  });
-
-  return (
-    <div className="card keywords-card">
-      <div className="card-body">
-        <h5 className="card-title">Top Keywords & Categories</h5>
-
-        <p className={"loading-" + (loading ? "show" : "hidden")}>Loading</p>
-
-        <div className={"chart-" + (loading ? "hidden" : "show")}>
-          <VictoryChart>
-            <VictoryAxis
-              style={{
-                axis: { stroke: "none" },
-                ticks: { stroke: "none" },
-                tickLabels: { fill: "none" },
-                grid: { stroke: "lightGray" }
-              }}
-            />
-            <VictoryAxis dependentAxis
-              style={{
-                ticks: { stroke: "gray" },
-                tickLabels: { fill: "gray", fontSize: 12 }
-              }}
-              crossAxis={false}
-            />
-            <VictoryBar
-              style={{
-                data: { fill: "#c43a31" }
-              }}
-              padding={{ left: 0, right: 0 }}
-              data={sentimentData}
-            />
-          </VictoryChart>
-        </div>
-      </div>
-    </div>
-  )
-}
+// Have a placeholder when it loads, will be replaced when the new photos are gotten
+let photos = [
+  { src: 'https://farm8.staticflickr.com/7863/33574306728_ce9501f6f5_m.jpg' },
+  { src: 'https://farm8.staticflickr.com/7885/33565551078_875241b5b8_m.jpg'},
+];
 
 class Services extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      activeMenu: 'Flikr',
+      activeMenu: 'Stoke',
       data: [],
       loading: true,
+      lightboxIsOpen: false,
+			currentImage: 0,
+      value: '',
     }
+    this.closeLightbox = this.closeLightbox.bind(this);
+    this.openLightbox = this.openLightbox.bind(this);
+    this.gotoNext = this.gotoNext.bind(this);
+    this.gotoPrevious = this.gotoPrevious.bind(this);
+
+    this.addValue = this.addValue.bind(this);
+    this.updateInput = this.updateInput.bind(this);
 
     this.updateFilterSelected = this.updateFilterSelected.bind(this);
   }
 
+  openLightbox (index, event) {
+		event.preventDefault();
+		this.setState({
+			currentImage: index,
+			lightboxIsOpen: true,
+		});
+	}
+	closeLightbox () {
+		this.setState({
+			currentImage: 0,
+			lightboxIsOpen: false,
+		});
+	}
+	gotoPrevious () {
+		this.setState({
+			currentImage: this.state.currentImage - 1,
+		});
+	}
+	gotoNext () {
+		this.setState({
+			currentImage: this.state.currentImage + 1,
+		});
+	}
+	gotoImage (index) {
+		this.setState({
+			currentImage: index,
+		});
+	}
+	handleClickImage () {
+		if (this.state.currentImage === this.props.images.length - 1) return;
+
+		this.gotoNext();
+	}
+
+  addValue(evt)
+  {
+    evt.preventDefault();
+    if(this.state.value !=undefined)
+    {
+      alert('Your input value is: ' + this.state.value)
+    }
+  }
+  updateInput(evt){
+    this.state={value: evt.target.value};
+    // this.setState({
+    //   activeMenu: evt.target.value,
+    // })
+    // this.state={value: evt.target.value};
+  }
+
   componentDidMount() {
     const { activeMenu } = this.state;
+    console.log(this.state)
     this.getData(activeMenu);
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { activeMenu, loading } = this.state;
+    const { activeMenu, data, loading } = this.state;
+    console.log(this.state)
     if (loading) {
       this.getData(activeMenu);
     }
   }
 
   getData(activeMenu) {
-    const articlesURL = `${LIBM_OTHER_URL}/social/flikr/stoke`;
+
+    const place = activeMenu
+    const articlesURL = `${LIBM_OTHER_URL}/social/flikr/` + place;
+    const data = [];
     this.getFromURL(articlesURL)
     .then((response) => {
-      let data = [];
       console.log(response)
-      response.forEach((r) => {
+      console.log(response.photos.photo)
+      response.photos.photo.forEach((r) => {
         data.push(r);
-      });
+      })
+      this.setState({
+        data: data,
+        loading: false,
+      })
     })
     .catch((err) => {
       console.log(err);
     })
+    console.log(data)
+
   }
+
 
   async getFromURL(url) {
     const res = await axios.get(url);
@@ -164,34 +172,65 @@ class Services extends React.Component {
     return data;
   }
 
+
   updateFilterSelected(name) {
-    // We change active name and also reset both
-    // the data and loading
+    const articlesURL = `${LIBM_OTHER_URL}/social/flikr/` + name;
+    // let data = []
+    const place = name
+    this.getFromURL(articlesURL)
+    .then((response) => {
+      let data = [];
+      console.log(response)
+      console.log(response.photos.photo)
+      response.photos.photo.forEach((r) => {
+        data.push(r);
+      });
+    })
     this.setState({
       activeMenu: name,
-      data: [],
+      data: data,
       loading: true,
     })
+
+    console.log(this.state.data)
+    console.log(data)
+
+    return (
+      <div>
+      <Gallery
+        photos={photos}
+        onClick={this.openLightbox} />
+      <Lightbox photos={photos}
+        onClose={this.closeLightbox}
+        onClickPrev={this.gotoPrevious}
+        onClickNext={this.gotoNext}
+        currentImage={this.state.currentImage}
+        isOpen={this.state.lightboxIsOpen}
+      />
+        </div>
+    )
   }
 
   renderFilterBar() {
-    const { activeMenu } = this.state;
+    const { activeMenu, value } = this.state;
+    console.log(data)
 
     return (
       <div className="filter-bar text-center">
+      <input type="text" /><br/><br/>
         <FilterButton
           activeMenu={activeMenu}
-          name="Health"
+          name="Load images"
           onClick={this.updateFilterSelected}
         />
         <FilterButton
           activeMenu={activeMenu}
-          name="Education"
+          name="stoke"
           onClick={this.updateFilterSelected}
         />
         <FilterButton
           activeMenu={activeMenu}
-          name="Transport"
+          name="london"
           onClick={this.updateFilterSelected}
         />
       </div>
@@ -199,21 +238,21 @@ class Services extends React.Component {
   }
 
   render() {
-    const { activeMenu, data, loading } = this.state;
+    const { activeMenu, data, loading, lightboxIsOpen, currentImage, images, value } = this.state;
+
+
 
     return (
       <div className="services-wrapper">
         <div className="row">
 
-          {this.renderFilterBar()}
+
+
+        {this.renderFilterBar()}
 
           <p className="name">{activeMenu}</p>
 
             <div className="col">
-              <SentimentCard
-                loading={loading}
-                data={data}
-              />
               { activeMenu === 'Education' ? (
                 <div className="card">
                   <div className="card-body">
@@ -230,14 +269,26 @@ class Services extends React.Component {
                 </div>
                 ) : (<></>)
               }
-            </div>
+              </div>
+              <div className="2asdf">
+              {loading}
+              </div>
+              <div>
+                <ShowFlikr
+                  loading={loading}
+                  data={data}
 
-            <div className="col">
-              <KeywordsCard
-                loading={loading}
-                data={data}
-              />
-            </div>
+                />
+              </div>
+
+
+              <div className="col">
+
+              </div>
+
+
+
+
 
         </div>
       </div>

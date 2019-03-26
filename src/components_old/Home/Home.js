@@ -11,21 +11,23 @@ import { ACCOUNTS_URL } from '../../utils/utils';
 class Home extends React.Component {
   constructor(props) {
     super(props);
-  
+
     this.logout = this.logout.bind(this);
   }
 
+  // Disabled logging in for the demo
   componentDidMount() {
     // User isn't logged in so send to accounts server /logout
-    if (!this.props.auth.isAuthenticated) {
-      window.location.href = `${ACCOUNTS_URL}/logout`;
+    // if (!this.props.auth.isAuthenticated) {
+    //   window.location.href = `${ACCOUNTS_URL}/logout`;
     }
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.auth.isAuthenticated !== prevProps.auth.isAuthenticated) {
-      window.location.href = `${ACCOUNTS_URL}/logout`;
-    }   
+
+    // if (this.props.auth.isAuthenticated !== prevProps.auth.isAuthenticated) {
+    //   window.location.href = `${ACCOUNTS_URL}/logout`;
+    }
   }
 
   logout(e) {
